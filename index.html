@@ -1,0 +1,266 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SoulCoach — AI Voice Coach for League of Legends</title>
+    <meta name="description" content="Real-time AI coaching that watches your game, talks to you like a pro coach, and auto-imports optimal builds. Not just data — an actual brain.">
+    <style>
+        * { margin:0; padding:0; box-sizing:border-box; }
+        :root {
+            --bg: #0a0a10; --bg2: #12121c; --gold: #c8aa6e; --gold-dim: #a08a4e;
+            --text: #dde0ea; --muted: #8888a0; --green: #2ecc71; --red: #ff4655;
+            --blue: #0ac8b9; --purple: #9b59b6;
+        }
+        body { background:var(--bg); color:var(--text); font-family:'Segoe UI',system-ui,sans-serif; line-height:1.6; overflow-x:hidden; }
+        a { color:var(--gold); text-decoration:none; }
+        a:hover { color:var(--gold-dim); }
+
+        /* ── Nav ── */
+        nav { position:fixed; top:0; width:100%; background:rgba(10,10,16,0.95); backdrop-filter:blur(10px); border-bottom:1px solid #1e1e30; z-index:100; padding:12px 0; }
+        .nav-inner { max-width:1100px; margin:0 auto; display:flex; justify-content:space-between; align-items:center; padding:0 24px; }
+        .logo { font-size:20px; font-weight:bold; color:var(--gold); }
+        .nav-links { display:flex; gap:24px; align-items:center; }
+        .nav-links a { color:var(--muted); font-size:14px; font-weight:500; }
+        .nav-links a:hover { color:var(--text); }
+        .btn { display:inline-block; padding:10px 24px; border-radius:8px; font-weight:bold; font-size:14px; cursor:pointer; transition:all 0.2s; }
+        .btn-gold { background:var(--gold); color:var(--bg); }
+        .btn-gold:hover { background:var(--gold-dim); color:var(--bg); }
+        .btn-outline { border:1px solid var(--gold); color:var(--gold); background:transparent; }
+        .btn-outline:hover { background:var(--gold); color:var(--bg); }
+
+        /* ── Hero ── */
+        .hero { padding:140px 24px 80px; text-align:center; max-width:900px; margin:0 auto; }
+        .hero h1 { font-size:clamp(36px,5vw,56px); line-height:1.1; margin-bottom:20px; }
+        .hero h1 span { color:var(--gold); }
+        .hero p { font-size:18px; color:var(--muted); max-width:600px; margin:0 auto 32px; }
+        .hero-btns { display:flex; gap:16px; justify-content:center; flex-wrap:wrap; }
+        .badge { display:inline-block; background:var(--bg2); border:1px solid #1e1e30; border-radius:20px; padding:6px 14px; font-size:12px; color:var(--muted); margin-bottom:24px; }
+        .badge span { color:var(--green); }
+
+        /* ── Features ── */
+        .features { padding:80px 24px; max-width:1100px; margin:0 auto; }
+        .features h2 { text-align:center; font-size:32px; margin-bottom:12px; }
+        .features .sub { text-align:center; color:var(--muted); margin-bottom:48px; }
+        .feature-grid { display:grid; grid-template-columns:repeat(auto-fit,minmax(300px,1fr)); gap:24px; }
+        .feature-card { background:var(--bg2); border:1px solid #1e1e30; border-radius:12px; padding:28px; transition:border-color 0.2s; }
+        .feature-card:hover { border-color:var(--gold); }
+        .feature-card .icon { font-size:28px; margin-bottom:12px; }
+        .feature-card h3 { font-size:18px; margin-bottom:8px; color:var(--text); }
+        .feature-card p { font-size:14px; color:var(--muted); }
+        .feature-card .tag { display:inline-block; font-size:11px; padding:2px 8px; border-radius:10px; margin-top:10px; font-weight:bold; }
+        .tag-ai { background:rgba(200,170,110,0.15); color:var(--gold); }
+        .tag-free { background:rgba(46,204,113,0.15); color:var(--green); }
+        .tag-exclusive { background:rgba(155,89,182,0.15); color:var(--purple); }
+
+        /* ── Comparison ── */
+        .compare { padding:80px 24px; max-width:800px; margin:0 auto; }
+        .compare h2 { text-align:center; font-size:32px; margin-bottom:32px; }
+        .compare-table { width:100%; border-collapse:collapse; }
+        .compare-table th, .compare-table td { padding:12px 16px; text-align:left; border-bottom:1px solid #1e1e30; font-size:14px; }
+        .compare-table th { color:var(--muted); font-size:12px; text-transform:uppercase; }
+        .compare-table td:first-child { color:var(--text); }
+        .compare-table .yes { color:var(--green); }
+        .compare-table .no { color:#444; }
+        .compare-table .special { color:var(--gold); font-weight:bold; }
+
+        /* ── Pricing ── */
+        .pricing { padding:80px 24px; max-width:1000px; margin:0 auto; }
+        .pricing h2 { text-align:center; font-size:32px; margin-bottom:12px; }
+        .pricing .sub { text-align:center; color:var(--muted); margin-bottom:48px; }
+        .price-grid { display:grid; grid-template-columns:repeat(auto-fit,minmax(280px,1fr)); gap:24px; }
+        .price-card { background:var(--bg2); border:1px solid #1e1e30; border-radius:12px; padding:32px; text-align:center; position:relative; }
+        .price-card.featured { border-color:var(--gold); }
+        .price-card.featured::after { content:"MOST POPULAR"; position:absolute; top:-12px; left:50%; transform:translateX(-50%); background:var(--gold); color:var(--bg); font-size:11px; font-weight:bold; padding:4px 12px; border-radius:10px; }
+        .price-card h3 { font-size:22px; margin-bottom:4px; }
+        .price-card .price { font-size:36px; font-weight:bold; color:var(--gold); margin:12px 0; }
+        .price-card .price span { font-size:16px; color:var(--muted); font-weight:normal; }
+        .price-card .ai-model { font-size:12px; color:var(--muted); margin-bottom:16px; }
+        .price-card ul { list-style:none; text-align:left; margin:20px 0; }
+        .price-card li { padding:6px 0; font-size:14px; color:var(--muted); }
+        .price-card li::before { content:"✓ "; color:var(--green); font-weight:bold; }
+        .price-card li.no::before { content:"— "; color:#444; }
+        .price-card .btn { width:100%; margin-top:12px; }
+
+        /* ── How it works ── */
+        .how { padding:80px 24px; max-width:900px; margin:0 auto; }
+        .how h2 { text-align:center; font-size:32px; margin-bottom:48px; }
+        .step { display:flex; gap:24px; margin-bottom:40px; align-items:flex-start; }
+        .step-num { flex-shrink:0; width:48px; height:48px; border-radius:50%; background:var(--bg2); border:2px solid var(--gold); display:flex; align-items:center; justify-content:center; font-size:20px; font-weight:bold; color:var(--gold); }
+        .step-content h3 { font-size:18px; margin-bottom:4px; }
+        .step-content p { color:var(--muted); font-size:14px; }
+
+        /* ── Footer ── */
+        footer { padding:40px 24px; border-top:1px solid #1e1e30; text-align:center; color:var(--muted); font-size:13px; }
+
+        /* ── Responsive ── */
+        @media(max-width:600px) {
+            .nav-links a:not(.btn) { display:none; }
+            .step { flex-direction:column; align-items:center; text-align:center; }
+        }
+    </style>
+</head>
+<body>
+
+<nav>
+    <div class="nav-inner">
+        <div class="logo">⚔ SoulCoach</div>
+        <div class="nav-links">
+            <a href="#features">Features</a>
+            <a href="#pricing">Pricing</a>
+            <a href="#download" class="btn btn-gold">Download Free</a>
+        </div>
+    </div>
+</nav>
+
+<section class="hero">
+    <div class="badge">Powered by <span>Claude AI</span> — real intelligence, not just data</div>
+    <h1>Your AI coach is <span>watching your game</span> and talking to you</h1>
+    <p>SoulCoach does everything Blitz does — auto runes, builds, champ select — PLUS a real-time AI brain that coaches you through voice like a pro sitting behind you.</p>
+    <div class="hero-btns">
+        <a href="#download" class="btn btn-gold">Download for Windows</a>
+        <a href="#features" class="btn btn-outline">See Features</a>
+    </div>
+</section>
+
+<section class="features" id="features">
+    <h2>Not just data. An actual brain.</h2>
+    <p class="sub">Every other tool gives you stats. SoulCoach understands your game.</p>
+    <div class="feature-grid">
+        <div class="feature-card">
+            <div class="icon">🎙</div>
+            <h3>Voice Coaching</h3>
+            <p>"Fizz is 3 and 1, rush Zhonyas before trading." Real coaching, spoken out loud, in real-time as you play.</p>
+            <span class="tag tag-exclusive">No one else has this</span>
+        </div>
+        <div class="feature-card">
+            <div class="icon">🧠</div>
+            <h3>AI Game Analysis</h3>
+            <p>Claude AI reads your full game state — CS, items, team comp, enemy threats — and tells you exactly what to do next.</p>
+            <span class="tag tag-ai">AI-Powered</span>
+        </div>
+        <div class="feature-card">
+            <div class="icon">⚔</div>
+            <h3>Smart Champ Select</h3>
+            <p>AI-powered pick recommendations that explain WHY, not just win rates. Auto-imports optimal runes, items, and summoners.</p>
+            <span class="tag tag-ai">AI-Powered</span>
+        </div>
+        <div class="feature-card">
+            <div class="icon">🛒</div>
+            <h3>Dynamic Builds</h3>
+            <p>Adapts item recommendations based on actual enemy builds. "They're stacking armor — go Lord Dominik's."</p>
+            <span class="tag tag-ai">AI-Powered</span>
+        </div>
+        <div class="feature-card">
+            <div class="icon">📊</div>
+            <h3>Post-Game Reports</h3>
+            <p>AI-generated coaching report after every game. Grade, what went well, key mistakes, and what to focus on next.</p>
+            <span class="tag tag-ai">AI-Powered</span>
+        </div>
+        <div class="feature-card">
+            <div class="icon">🔍</div>
+            <h3>Player Scouting</h3>
+            <p>Porofessor-style badges for all 10 players. Know who's tilted, who's the carry, and who's the OTP before the game starts.</p>
+            <span class="tag tag-free">Free</span>
+        </div>
+    </div>
+</section>
+
+<section class="compare">
+    <h2>SoulCoach vs Blitz</h2>
+    <table class="compare-table">
+        <tr><th>Feature</th><th>Blitz</th><th>SoulCoach</th></tr>
+        <tr><td>Auto-import runes & builds</td><td class="yes">✓</td><td class="yes">✓</td></tr>
+        <tr><td>CS/KDA tracking</td><td class="yes">✓</td><td class="yes">✓</td></tr>
+        <tr><td>Champ select data</td><td class="yes">✓ (static)</td><td class="special">✓ AI reasoning</td></tr>
+        <tr><td>Real-time voice coaching</td><td class="no">✗</td><td class="special">✓ AI coach</td></tr>
+        <tr><td>Dynamic counter-builds</td><td class="no">✗</td><td class="special">✓ adapts live</td></tr>
+        <tr><td>Threat analysis</td><td class="no">✗</td><td class="special">✓ "Zed is fed"</td></tr>
+        <tr><td>Post-game AI report</td><td class="no">✗</td><td class="special">✓ coaching card</td></tr>
+        <tr><td>Player scouting badges</td><td class="no">✗</td><td class="special">✓ all 10 players</td></tr>
+        <tr><td>Price</td><td>Free / $3.99</td><td>Free / $9.99 / $19.99</td></tr>
+    </table>
+</section>
+
+<section class="pricing" id="pricing">
+    <h2>Simple pricing. Cancel anytime.</h2>
+    <p class="sub">Start free. Upgrade when you want AI coaching.</p>
+    <div class="price-grid">
+        <div class="price-card">
+            <h3>Free</h3>
+            <div class="price">$0<span>/mo</span></div>
+            <div class="ai-model">No AI — static data only</div>
+            <ul>
+                <li>Champ select pick/ban info</li>
+                <li>Auto-import runes (highest WR)</li>
+                <li>In-game CS/KDA/timers</li>
+                <li>5 AI consults per day</li>
+                <li class="no">Voice coaching</li>
+                <li class="no">Post-game reports</li>
+            </ul>
+            <a href="#download" class="btn btn-outline">Download Free</a>
+        </div>
+        <div class="price-card featured">
+            <h3>Pro</h3>
+            <div class="price">$9.99<span>/mo</span></div>
+            <div class="ai-model">Powered by Claude Haiku 4.5</div>
+            <ul>
+                <li>Everything in Free</li>
+                <li>Unlimited AI coaching</li>
+                <li>Voice coaching</li>
+                <li>Dynamic counter-builds</li>
+                <li>Basic post-game report</li>
+                <li class="no">Historical analytics</li>
+            </ul>
+            <a href="#download" class="btn btn-gold">Get Pro</a>
+        </div>
+        <div class="price-card">
+            <h3>Elite</h3>
+            <div class="price">$19.99<span>/mo</span></div>
+            <div class="ai-model">Powered by Claude Sonnet 4.6</div>
+            <ul>
+                <li>Everything in Pro</li>
+                <li>Smarter AI (Sonnet 4.6)</li>
+                <li>Detailed post-game reports</li>
+                <li>Historical analytics</li>
+                <li>Custom voice personas</li>
+                <li>Multi-game support</li>
+            </ul>
+            <a href="#download" class="btn btn-outline">Get Elite</a>
+        </div>
+    </div>
+</section>
+
+<section class="how" id="download">
+    <h2>Get started in 60 seconds</h2>
+    <div class="step">
+        <div class="step-num">1</div>
+        <div class="step-content">
+            <h3>Download SoulCoach</h3>
+            <p>Single .exe file. No install wizard, no bloat. Just download and run.</p>
+            <a href="#" class="btn btn-gold" style="margin-top:12px">Download SoulCoach.exe</a>
+        </div>
+    </div>
+    <div class="step">
+        <div class="step-num">2</div>
+        <div class="step-content">
+            <h3>Open League of Legends</h3>
+            <p>SoulCoach auto-detects your client and connects. No configuration needed.</p>
+        </div>
+    </div>
+    <div class="step">
+        <div class="step-num">3</div>
+        <div class="step-content">
+            <h3>Play with your AI coach</h3>
+            <p>SoulCoach watches your game, gives real-time advice through voice and overlay, and reviews your performance after each match.</p>
+        </div>
+    </div>
+</section>
+
+<footer>
+    <p>SoulCoach is not endorsed by Riot Games and doesn't reflect the views or opinions of Riot Games or anyone officially involved in League of Legends. League of Legends and Riot Games are trademarks of Riot Games, Inc.</p>
+    <p style="margin-top:8px">Built with Claude AI by the SoulCoach team.</p>
+</footer>
+
+</body>
+</html>
