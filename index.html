@@ -53,6 +53,56 @@
         .tag-free { background:rgba(46,204,113,0.15); color:var(--green); }
         .tag-exclusive { background:rgba(155,89,182,0.15); color:var(--purple); }
 
+        /* ── Demo / Screenshots ── */
+        .demo { padding:80px 24px; max-width:1100px; margin:0 auto; }
+        .demo h2 { text-align:center; font-size:32px; margin-bottom:12px; }
+        .demo .sub { text-align:center; color:var(--muted); margin-bottom:48px; }
+        .demo-grid { display:grid; grid-template-columns:repeat(auto-fit,minmax(480px,1fr)); gap:32px; }
+        .demo-card { background:var(--bg2); border:1px solid #1e1e30; border-radius:12px; overflow:hidden; }
+        .demo-card .demo-visual { position:relative; background:#0d0d15; padding:24px; min-height:220px; display:flex; align-items:center; justify-content:center; }
+        .demo-card .demo-label { padding:16px 20px; }
+        .demo-card .demo-label h3 { font-size:16px; margin-bottom:4px; }
+        .demo-card .demo-label p { font-size:13px; color:var(--muted); }
+        /* Mock overlay elements */
+        .mock-pill { background:rgba(10,10,18,0.9); border:1px solid #1e1e30; border-radius:6px; padding:6px 12px; font-family:'Consolas',monospace; font-size:12px; position:absolute; }
+        .mock-status { top:16px; left:16px; color:var(--green); font-weight:bold; font-size:11px; }
+        .mock-stats { top:16px; right:16px; color:var(--text); }
+        .mock-stats .good { color:var(--green); }
+        .mock-stats .bad { color:var(--red); }
+        .mock-callout { bottom:60px; left:50%; transform:translateX(-50%); border-color:var(--gold); color:var(--gold); font-family:'Segoe UI',sans-serif; font-size:14px; font-weight:bold; white-space:nowrap; }
+        .mock-buy { bottom:16px; left:16px; border-color:var(--green); color:var(--green); font-size:11px; }
+        .mock-threat { bottom:16px; right:16px; background:rgba(255,70,85,0.7); border-color:var(--red); color:white; font-size:11px; }
+        .mock-skill { top:50%; left:16px; transform:translateY(-50%); }
+        .mock-skill .arrow { color:var(--green); font-size:18px; }
+        .mock-obj { top:50%; right:16px; transform:translateY(-50%); }
+        .mock-voice { display:flex; align-items:center; gap:12px; }
+        .mock-waveform { display:flex; align-items:end; gap:3px; height:40px; }
+        .mock-waveform span { width:4px; background:var(--gold); border-radius:2px; animation:wave 1.2s ease-in-out infinite; }
+        .mock-waveform span:nth-child(1){height:12px;animation-delay:0s;}
+        .mock-waveform span:nth-child(2){height:24px;animation-delay:0.1s;}
+        .mock-waveform span:nth-child(3){height:36px;animation-delay:0.2s;}
+        .mock-waveform span:nth-child(4){height:20px;animation-delay:0.3s;}
+        .mock-waveform span:nth-child(5){height:32px;animation-delay:0.4s;}
+        .mock-waveform span:nth-child(6){height:16px;animation-delay:0.5s;}
+        .mock-waveform span:nth-child(7){height:28px;animation-delay:0.6s;}
+        @keyframes wave { 0%,100%{transform:scaleY(1)} 50%{transform:scaleY(0.4)} }
+        .mock-speech { background:var(--bg2); border:1px solid var(--gold); border-radius:8px; padding:12px 16px; color:var(--gold); font-style:italic; font-size:14px; max-width:320px; position:relative; }
+        .mock-speech::before { content:''; position:absolute; left:-8px; top:50%; transform:translateY(-50%); border:8px solid transparent; border-right-color:var(--gold); border-left:0; }
+        /* Champ select mock */
+        .mock-cs { text-align:left; width:100%; padding:0 8px; }
+        .mock-cs-header { color:var(--gold); font-weight:bold; font-size:14px; margin-bottom:12px; }
+        .mock-cs-row { display:flex; justify-content:space-between; margin-bottom:6px; }
+        .mock-cs-team { font-size:12px; font-family:'Consolas',monospace; }
+        .mock-cs-advice { background:var(--bg); border:1px solid #1e1e30; border-radius:6px; padding:10px; margin-top:10px; font-size:12px; color:var(--muted); }
+        .mock-cs-advice b { color:var(--gold); }
+        /* Post-game mock */
+        .mock-pg { text-align:left; width:100%; padding:0 8px; }
+        .mock-pg-grade { text-align:center; font-size:36px; font-weight:bold; color:var(--gold); margin-bottom:12px; }
+        .mock-pg-row { font-size:12px; margin-bottom:6px; padding:4px 0; }
+        .mock-pg-row.good { color:var(--green); }
+        .mock-pg-row.bad { color:var(--red); }
+        .mock-pg-row.focus { color:var(--blue); }
+
         /* ── Comparison ── */
         .compare { padding:80px 24px; max-width:800px; margin:0 auto; }
         .compare h2 { text-align:center; font-size:32px; margin-bottom:32px; }
@@ -107,6 +157,7 @@
         <div class="logo">⚔ SoulCoach</div>
         <div class="nav-links">
             <a href="#features">Features</a>
+            <a href="#demo">Demo</a>
             <a href="#pricing">Pricing</a>
             <a href="https://github.com/JordinDC7/soulcoach-site/releases/latest/download/SoulCoach.exe" class="btn btn-gold">Download Free</a>
         </div>
@@ -162,6 +213,93 @@
             <h3>Player Scouting</h3>
             <p>Porofessor-style badges for all 10 players. Know who's tilted, who's the carry, and who's the OTP before the game starts.</p>
             <span class="tag tag-free">Free</span>
+        </div>
+    </div>
+</section>
+
+<section class="demo" id="demo">
+    <h2>See it in action</h2>
+    <p class="sub">This is what coaching looks like — running live during your game.</p>
+    <div class="demo-grid">
+        <!-- In-Game Overlay -->
+        <div class="demo-card">
+            <div class="demo-visual" style="min-height:260px">
+                <div class="mock-pill mock-status">⚔ LIVE</div>
+                <div class="mock-pill mock-stats">
+                    <span class="good">CS 8.2/m</span> &nbsp;
+                    <span>4/1/6</span> &nbsp;
+                    <span class="good">Δ+1450g</span>
+                </div>
+                <div class="mock-pill mock-callout">🎯 Push mid then rotate dragon — 45s spawn</div>
+                <div class="mock-pill mock-buy">🛒 Zhonya's Hourglass → Void Staff</div>
+                <div class="mock-pill mock-threat">⚠ Zed 7/2 — danger</div>
+                <div class="mock-pill mock-obj" style="font-size:12px">
+                    <span style="color:var(--red)">🐉 0:42</span><br>
+                    <span style="color:var(--purple)">👿 3:15</span>
+                </div>
+            </div>
+            <div class="demo-label">
+                <h3>In-Game Overlay</h3>
+                <p>CS/KDA tracking, AI callouts, dynamic item suggestions, objective timers, and threat alerts — all non-intrusive on top of your game.</p>
+            </div>
+        </div>
+        <!-- Voice Coaching -->
+        <div class="demo-card">
+            <div class="demo-visual" style="justify-content:center;gap:20px">
+                <div class="mock-voice">
+                    <div class="mock-waveform">
+                        <span></span><span></span><span></span><span></span><span></span><span></span><span></span>
+                    </div>
+                    <div class="mock-speech">"Fizz is 3 and 1 — rush Zhonya's before trading. Play safe until 6."</div>
+                </div>
+            </div>
+            <div class="demo-label">
+                <h3>Voice Coaching</h3>
+                <p>AI speaks to you like a pro coach sitting behind you. Warns about threats, calls objectives, and tells you when to back.</p>
+            </div>
+        </div>
+        <!-- Champ Select -->
+        <div class="demo-card">
+            <div class="demo-visual">
+                <div class="mock-cs">
+                    <div class="mock-cs-header">⚔ CHAMP SELECT</div>
+                    <div class="mock-cs-row">
+                        <span class="mock-cs-team" style="color:var(--green)">You: Syndra (MID)</span>
+                    </div>
+                    <div class="mock-cs-row">
+                        <span class="mock-cs-team" style="color:var(--muted)">Allies: Garen(TOP) Viego(JNG) Jinx(BOT) Lulu(SUP)</span>
+                    </div>
+                    <div class="mock-cs-row">
+                        <span class="mock-cs-team" style="color:var(--red)">Enemies: Fizz(MID) Yone(TOP) Lee Sin(JNG)</span>
+                    </div>
+                    <div class="mock-cs-advice">
+                        <b>⚔ MATCHUP:</b> Fizz can all-in post-6. Space your Q poke, hold E stun for his engage.<br><br>
+                        <b>🛒 BUILD:</b> Rush Zhonya's → Luden's. Barrier over Ignite for safety.<br><br>
+                        <b>🔮 RUNES:</b> Electrocute with Bone Plating secondary.
+                    </div>
+                </div>
+            </div>
+            <div class="demo-label">
+                <h3>AI Champ Select</h3>
+                <p>Not just win rates — AI explains WHY picks are good, matchup tips, and auto-imports optimal runes + build.</p>
+            </div>
+        </div>
+        <!-- Post-Game -->
+        <div class="demo-card">
+            <div class="demo-visual">
+                <div class="mock-pg">
+                    <div class="mock-pg-grade">A-</div>
+                    <div class="mock-pg-row good">✅ Strong laning — 8.2 CS/min, +1.4k gold lead at 15m</div>
+                    <div class="mock-pg-row good">✅ Great teamfight positioning — 68% kill participation</div>
+                    <div class="mock-pg-row bad">❌ Died to gank at 7:20 — ward river before trading</div>
+                    <div class="mock-pg-row bad">❌ Missed dragon call at 22:00 — timer was up for 30s</div>
+                    <div class="mock-pg-row focus">🎯 FOCUS: Practice ward timing around objective spawns</div>
+                </div>
+            </div>
+            <div class="demo-label">
+                <h3>Post-Game Report</h3>
+                <p>AI-generated coaching card: grade, what went well, mistakes to fix, and exactly what to focus on next game.</p>
+            </div>
         </div>
     </div>
 </section>
